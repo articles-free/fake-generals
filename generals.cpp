@@ -1,3 +1,26 @@
+/*
+type = 0 empty land
+type = 1 wall
+type = 2 general
+type = 3 land
+type = 4 empty city
+type = 5 city
+type = 6 health
+type = 7 ac
+type = 8 sword
+type = 9 flag
+type = 10 empty flag
+type = 11 exhealth {+}
+type = 12 exac {O}
+type = 13 exsword <==I
+type = 14 light [L]
+type = 15 pill [C]
+type = 16 expill {C}
+type = 17 2xscope {2X}
+type = 18 fh [F]
+type = 19 exfh {F}
+type = 20 point [  ]
+*/
 #include <iostream>
 #include <windows.h>
 #include <conio.h>
@@ -109,6 +132,10 @@ string myto_string(int x)
     return ans;
 }
 int order[105];
+int dist(int xx1, int yy1, int xx2, int yy2)
+{
+    return abs(xx1 - xx2) + abs(yy1 - yy2);
+}
 void congen()
 {
     for (int i = 1; i <= gennum; i++)
@@ -121,6 +148,17 @@ void congen()
         {
             px = randnum(1, X), py = randnum(1, Y);
             if (mp[px][py].type != 0)
+                continue;
+            bool flag = false;
+            for (int k = 1; k <= X; k++)
+                for (int w = 1; w <= Y; w++)
+                    if (mp[k][w].type == 2 && dist(px, py, k, w) <= 6)
+                    {
+                        flag = true;
+                        k = X + 1;
+                        break;
+                    }
+            if (flag)
                 continue;
             mp[px][py].type = 2;
             mp[px][py].belong = order[i];
