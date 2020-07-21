@@ -1190,7 +1190,7 @@ struct Player
     int sx, sy;
     int inteam;
     bool flag[105][105];
-    queue<pair<int, int>> q;
+    queue<pair<int, int> > q;
     void botit()
     {
         sx = selectedx, sy = selectedy;
