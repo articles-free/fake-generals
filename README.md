@@ -150,6 +150,14 @@ RT
 
 - 添加了极速模式。
 
+- 增加了平局机制。
+
+- 修复了占点模式下视野的问题。
+
+- 修复了移动判定的问题。
+
+- 使没有毒圈的地图不刷出防毒面具。
+
 说明：迷宫和端午地图的生成参考了 [https://github.com/By-Ha/Checkmate/blob/master/game/map.js](https://github.com/By-Ha/Checkmate/blob/master/game/map.js)。
 
 **使用方法：**

@@ -1190,7 +1190,7 @@ struct Player
     int sx, sy;
     int inteam;
     bool flag[105][105];
-    queue<pair<int, int> > q;
+    queue<pair<int, int>> q;
     void botit()
     {
         sx = selectedx, sy = selectedy;
@@ -1728,7 +1728,7 @@ struct Player
         int ansx = sx, ansy = sy, anss = mp[sx][sy].tmp;
         for (int i = 1; i <= X; i++)
             for (int j = 1; j <= Y; j++)
-                if (mp[i][j].belong == playerid && mp[i][j].tmp > anss)
+                if (mp[i][j].belong == playerid && mp[i][j].tmp > anss && (mp[i][j].type == 2 || mp[i][j].type == 3 || mp[i][j].type == 5))
                     anss = mp[i][j].tmp, ansx = i, ansy = j;
         sx = ansx;
         sy = ansy;
@@ -1752,7 +1752,7 @@ struct Player
         for (int i = rand() % 4; rand() % 10 != 0; i = rand() % 4)
         {
             int px = x + dir[i][0], py = y + dir[i][1];
-            if (px >= 1 && px <= X && py >= 1 && py <= Y && mp[px][py].type != 1 && mp[x][y].tmp > 1 && !flag[px][py] && !fog[px][py])
+            if (px >= 1 && px <= X && py >= 1 && py <= Y && mp[px][py].type != 1 && mp[x][y].tmp > 1 && !flag[px][py] && !fog[px][py] && mp[px][py].type != 20)
             {
                 flag[px][py] = true;
                 q.push(make_pair(px, py));
@@ -1837,7 +1837,13 @@ void convobject()
             }
             if (trytime > 100)
                 continue;
-            mp[gx][gy].type = normalobjects[randnum(1, 6)];
+            while (1)
+            {
+                mp[gx][gy].type = normalobjects[randnum(1, 6)];
+                if ((mp[gx][gy].type == 18 || mp[gx][gy].type == 19) && (mapmode == 6 || mapmode == 7))
+                    continue;
+                break;
+            }
             aliveobjectnum++;
             continue;
         }
@@ -1850,7 +1856,13 @@ void convobject()
         }
         if (trytime > 100)
             continue;
-        mp[px][py].type = normalobjects[randnum(1, 6)];
+        while (1)
+        {
+            mp[px][py].type = normalobjects[randnum(1, 6)];
+            if ((mp[px][py].type == 18 || mp[px][py].type == 19) && (mapmode == 6 || mapmode == 7))
+                continue;
+            break;
+        }
         aliveobjectnum++;
     }
     return;
@@ -2255,7 +2267,7 @@ int main()
                 spawnkt();
             turn++;
         }
-        int winner = 1;
+        int winner = -1;
         for (int i = 1; i <= X; i++)
             for (int j = 1; j <= Y; j++)
                 if (mp[i][j].type == 2 && mp[i][j].tmp > 0)
@@ -2264,8 +2276,15 @@ int main()
                     i = X + 1;
                     break;
                 }
-        string opt = "player" + myto_string(winner) + "赢了!";
-        MessageBox(NULL, opt.c_str(), "欢呼", MB_OK);
+        if (winner == -1)
+        {
+            MessageBox(NULL, "没有玩家胜利。", "欢呼", MB_OK);
+        }
+        else
+        {
+            string opt = "player" + myto_string(winner) + "赢了!";
+            MessageBox(NULL, opt.c_str(), "欢呼", MB_OK);
+        }
         return 0;
     }
     teaming();
@@ -2354,7 +2373,7 @@ int main()
             }
         for (int i = 1; i <= X; i++)
             for (int j = 1; j <= Y; j++)
-                if (mp[i][j].belong)
+                if (mp[i][j].belong && mp[i][j].type != 20)
                 {
                     for (int k = 1; k <= team[player[mp[i][j].belong].inteam].membernum; k++)
                         sight[team[player[mp[i][j].belong].inteam].members[k]->playerid][i][j] = true;
@@ -2438,13 +2457,25 @@ int main()
                         player[mp[i][j].belong].respawn();
                     }
             if (mapmode == 6)
+            {
+                string opt = "";
                 for (int i = 1; i <= teamnum; i++)
                     if (flagscore[i] >= 10)
                     {
-                        string opt = "team" + myto_string(i) + "赢了!";
-                        MessageBox(NULL, opt.c_str(), "欢呼", MB_OK);
-                        return 0;
+                        if (opt == "")
+                            opt += "team" + myto_string(i);
+                        else
+                        {
+                            opt += ", team" + myto_string(i);
+                        }
                     }
+                if (opt != "")
+                {
+                    opt += "赢了！";
+                    MessageBox(NULL, opt.c_str(), "欢呼", MB_OK);
+                    return 0;
+                }
+            }
         }
         if (mapmode == 5 || mapmode == 6 || mapmode == 7)
             for (int i = 1; i <= gennum; i++)
@@ -2492,13 +2523,23 @@ int main()
                         teampointsmatchland[mp[i][j].belong]++;
             for (int i = 1; i <= teamnum; i++)
                 teampointsmatchscore[i] += teampointsmatchland[i];
+            string opt = "";
             for (int i = 1; i <= teamnum; i++)
                 if (teampointsmatchscore[i] >= 1000)
                 {
-                    string opt = "team" + myto_string(i) + "赢了!";
-                    MessageBox(NULL, opt.c_str(), "欢呼", MB_OK);
-                    return 0;
+                    if (opt == "")
+                        opt += "team" + myto_string(i);
+                    else
+                    {
+                        opt += ", team" + myto_string(i);
+                    }
                 }
+            if (opt != "")
+            {
+                opt += "赢了！";
+                MessageBox(NULL, opt.c_str(), "欢呼", MB_OK);
+                return 0;
+            }
             for (int i = 1; i <= X; i++)
                 for (int j = 1; j <= Y; j++)
                 {
@@ -2569,7 +2610,7 @@ int main()
         }
         turn++;
     }
-    int winner = 1;
+    int winner = -1;
     for (int i = 1; i <= X; i++)
         for (int j = 1; j <= Y; j++)
             if (mp[i][j].type == 2 && mp[i][j].tmp > 0)
@@ -2578,7 +2619,12 @@ int main()
                 i = X + 1;
                 break;
             }
-    string opt = "team" + myto_string(winner) + "赢了!";
-    MessageBox(NULL, opt.c_str(), "欢呼", MB_OK);
+    if (winner != -1)
+    {
+        string opt = "team" + myto_string(winner) + "赢了!";
+        MessageBox(NULL, opt.c_str(), "欢呼", MB_OK);
+    }
+    else
+        MessageBox(NULL, "没有队伍胜利。", "欢呼", MB_OK);
     return 0;
 }
