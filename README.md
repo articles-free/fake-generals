@@ -146,6 +146,8 @@ RT
 
 - 修复了正常视野不为 3\*3 的问题。
 
+- 在生成主基地时判断曼哈顿距离。
+
 说明：迷宫和端午地图的生成参考了 [https://github.com/By-Ha/Checkmate/blob/master/game/map.js](https://github.com/By-Ha/Checkmate/blob/master/game/map.js)。
 
 **使用方法：**
