@@ -16,6 +16,8 @@ RT
 
 **在占点地图中，用```[]```包裹的数字表示据点，敬请注意。**
 
+**由于修改了移动机制，我们推荐使用长按进行操作，而不是连击。**
+
 **TDM模式规则：**
 
 - 队友之间共享视野，但不可互相攻击
@@ -157,6 +159,8 @@ RT
 - 修复了移动判定的问题。
 
 - 使没有毒圈的地图不刷出防毒面具。
+
+- 修改了移动机制。
 
 说明：迷宫和端午地图的生成参考了 [https://github.com/By-Ha/Checkmate/blob/master/game/map.js](https://github.com/By-Ha/Checkmate/blob/master/game/map.js)。
 

@@ -1190,7 +1190,7 @@ struct Player
     int sx, sy;
     int inteam;
     bool flag[105][105];
-    queue<pair<int, int> > q;
+    queue<pair<int, int>> q;
     void botit()
     {
         sx = selectedx, sy = selectedy;
@@ -2155,20 +2155,17 @@ int main()
                     ktremaintime = -1;
                 }
             }
-            for (int i = 1; i <= 20; i++)
+            for (int j = 0; j < 6; j++)
+                if (inp == ' ' && KEY_DOWN(keys[j]))
+                    inp = keys[j];
+            if (ismouse && KEY_DOWN(MOUSE_MOVED))
             {
-                for (int j = 0; j < 6; j++)
-                    if (inp == ' ' && KEY_DOWN(keys[j]))
-                        inp = keys[j];
-                if (ismouse && KEY_DOWN(MOUSE_MOVED))
-                {
-                    GetCursorPos(&p1);
-                    player[currentplayer].selectedx = int(round((double(p1.y) - double(xx1)) / dx)) + 1 + (X > 15 ? player[currentplayer].selectedx - 8 : 0);
-                    player[currentplayer].selectedy = int(round((double(p1.x) - double(yy1)) / dy)) + 1 + (Y > 15 ? player[currentplayer].selectedy - 8 : 0);
-                    ismouse = false;
-                }
-                Sleep(tpt / 20);
+                GetCursorPos(&p1);
+                player[currentplayer].selectedx = int(round((double(p1.y) - double(xx1)) / dx)) + 1 + (X > 15 ? player[currentplayer].selectedx - 8 : 0);
+                player[currentplayer].selectedy = int(round((double(p1.x) - double(yy1)) / dy)) + 1 + (Y > 15 ? player[currentplayer].selectedy - 8 : 0);
+                ismouse = false;
             }
+            Sleep(tpt);
             if (inp == 'Z')
                 player[currentplayer].halfselect ^= 1;
             else if (inp == 'F')
@@ -2323,20 +2320,17 @@ int main()
             }
         }
         bool ismouse = true;
-        for (int i = 1; i <= 20; i++)
+        for (int j = 0; j < 6; j++)
+            if (inp == ' ' && KEY_DOWN(keys[j]))
+                inp = keys[j];
+        if (ismouse && KEY_DOWN(MOUSE_MOVED))
         {
-            for (int j = 0; j < 6; j++)
-                if (inp == ' ' && KEY_DOWN(keys[j]))
-                    inp = keys[j];
-            if (ismouse && KEY_DOWN(MOUSE_MOVED))
-            {
-                GetCursorPos(&p1);
-                player[currentplayer].selectedx = int(round((double(p1.y) - double(xx1)) / dx)) + 1 + (X > 15 ? player[currentplayer].selectedx - 8 : 0);
-                player[currentplayer].selectedy = int(round((double(p1.x) - double(yy1)) / dy)) + 1 + (Y > 15 ? player[currentplayer].selectedy - 8 : 0);
-                ismouse = false;
-            }
-            Sleep(tpt / 20);
+            GetCursorPos(&p1);
+            player[currentplayer].selectedx = int(round((double(p1.y) - double(xx1)) / dx)) + 1 + (X > 15 ? player[currentplayer].selectedx - 8 : 0);
+            player[currentplayer].selectedy = int(round((double(p1.x) - double(yy1)) / dy)) + 1 + (Y > 15 ? player[currentplayer].selectedy - 8 : 0);
+            ismouse = false;
         }
+        Sleep(tpt);
         if (inp == 'Z')
             player[currentplayer].halfselect ^= 1;
         else if (inp == 'F')
