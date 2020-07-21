@@ -2,7 +2,7 @@
 
 RT
 
-**演示视频：**
+**演示视频：（新版本可能有所不同）**
 
 ![](https://i.loli.net/2020/07/20/ymUwpN6BcnrOTiQ.gif)
 
@@ -147,6 +147,8 @@ RT
 - 修复了正常视野不为 3\*3 的问题。
 
 - 在生成主基地时判断曼哈顿距离。
+
+- 添加了极速模式。
 
 说明：迷宫和端午地图的生成参考了 [https://github.com/By-Ha/Checkmate/blob/master/game/map.js](https://github.com/By-Ha/Checkmate/blob/master/game/map.js)。
 

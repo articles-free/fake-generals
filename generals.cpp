@@ -105,6 +105,7 @@ int flagscore[105];
 bool ifcanconvobject;
 bool fvf;
 bool isgz;
+bool opt;
 void convmap()
 {
     for (int i = 1; i <= X; i++)
@@ -587,21 +588,28 @@ void putmap(int sx, int sy, int id)
         lineprinted = false;
         if (i >= 1 && i <= X && !colprinted)
         {
-            lft = false;
-            for (int j = (starting ? 1 : (Y > 15 ? sy - 7 : 1)); j <= (starting ? 15 : (Y > 15 ? sy + 7 : Y)); j++)
-                if (j >= 1 && j <= Y)
-                {
-                    if (!lft)
-                        printf("-"), lft = true;
-                    printf("-----");
-                }
-                else
-                {
-                    if (!lft)
-                        printf(" "), lft = true;
-                    printf("     ");
-                }
-            printf("\n");
+            if (!opt)
+            {
+                lft = false;
+                for (int j = (starting ? 1 : (Y > 15 ? sy - 7 : 1)); j <= (starting ? 15 : (Y > 15 ? sy + 7 : Y)); j++)
+                    if (j >= 1 && j <= Y)
+                    {
+                        if (!lft)
+                            printf("-"), lft = true;
+                        printf("-----");
+                    }
+                    else
+                    {
+                        if (!lft)
+                            printf(" "), lft = true;
+                        printf("     ");
+                    }
+                printf("\n");
+            }
+            else
+            {
+                printf("                                                                                                    \n");
+            }
             colprinted = true;
         }
         for (int j = (starting ? 1 : (Y > 15 ? sy - 7 : 1)); j <= (starting ? 15 : (Y > 15 ? sy + 7 : Y)); j++)
@@ -613,8 +621,15 @@ void putmap(int sx, int sy, int id)
                 printf("     ");
                 continue;
             }
-            if (!lineprinted && i >= 1 && i <= X)
-                printf("|"), lineprinted = true;
+            if (!opt)
+            {
+                if (!lineprinted && i >= 1 && i <= X)
+                    printf("|"), lineprinted = true;
+            }
+            else
+            {
+                printf(" ");
+            }
             if (fog[i][j])
                 SetColor(0xd, 0xd, 2);
             if (sx == i && sy == j)
@@ -708,7 +723,7 @@ void putmap(int sx, int sy, int id)
                         printf("▒▒▒▒");
                     else if (fog[i][j])
                         printf("████");
-                    else if (sight[id][i][j])
+                    else if (sight[id][i][j] || opt)
                         printf("    ");
                     else
                     {
@@ -748,7 +763,7 @@ void putmap(int sx, int sy, int id)
                     {
                         if (fog[i][j])
                             printf("████");
-                        else if (sight[id][i][j])
+                        else if (sight[id][i][j] || opt)
                             printf("    ");
                         else
                         {
@@ -772,7 +787,7 @@ void putmap(int sx, int sy, int id)
                     {
                         if (fog[i][j])
                             printf("████");
-                        else if (sight[id][i][j])
+                        else if (sight[id][i][j] || opt)
                             printf("    ");
                         else
                         {
@@ -812,7 +827,7 @@ void putmap(int sx, int sy, int id)
                         printf(" +  ");
                     else if (fog[i][j])
                         printf("████");
-                    else if (sight[id][i][j])
+                    else if (sight[id][i][j] || opt)
                         printf("    ");
                     else
                     {
@@ -827,7 +842,7 @@ void putmap(int sx, int sy, int id)
                         printf("<--l");
                     else if (fog[i][j])
                         printf("████");
-                    else if (sight[id][i][j])
+                    else if (sight[id][i][j] || opt)
                         printf("    ");
                     else
                     {
@@ -842,7 +857,7 @@ void putmap(int sx, int sy, int id)
                         printf("[O] ");
                     else if (fog[i][j])
                         printf("████");
-                    else if (sight[id][i][j])
+                    else if (sight[id][i][j] || opt)
                         printf("    ");
                     else
                     {
@@ -861,7 +876,7 @@ void putmap(int sx, int sy, int id)
                         printf("{+} ");
                     else if (fog[i][j])
                         printf("████");
-                    else if (sight[id][i][j])
+                    else if (sight[id][i][j] || opt)
                         printf("    ");
                     else
                     {
@@ -876,7 +891,7 @@ void putmap(int sx, int sy, int id)
                         printf("{O} ");
                     else if (fog[i][j])
                         printf("████");
-                    else if (sight[id][i][j])
+                    else if (sight[id][i][j] || opt)
                         printf("    ");
                     else
                     {
@@ -891,7 +906,7 @@ void putmap(int sx, int sy, int id)
                         printf("<==I");
                     else if (fog[i][j])
                         printf("████");
-                    else if (sight[id][i][j])
+                    else if (sight[id][i][j] || opt)
                         printf("    ");
                     else
                     {
@@ -906,7 +921,7 @@ void putmap(int sx, int sy, int id)
                         printf("[L] ");
                     else if (fog[i][j])
                         printf("████");
-                    else if (sight[id][i][j])
+                    else if (sight[id][i][j] || opt)
                         printf("    ");
                     else
                     {
@@ -921,7 +936,7 @@ void putmap(int sx, int sy, int id)
                         printf("[C] ");
                     else if (fog[i][j])
                         printf("████");
-                    else if (sight[id][i][j])
+                    else if (sight[id][i][j] || opt)
                         printf("    ");
                     else
                     {
@@ -936,7 +951,7 @@ void putmap(int sx, int sy, int id)
                         printf("{C} ");
                     else if (fog[i][j])
                         printf("████");
-                    else if (sight[id][i][j])
+                    else if (sight[id][i][j] || opt)
                         printf("    ");
                     else
                     {
@@ -951,7 +966,7 @@ void putmap(int sx, int sy, int id)
                         printf("{2X}");
                     else if (fog[i][j])
                         printf("████");
-                    else if (sight[id][i][j])
+                    else if (sight[id][i][j] || opt)
                         printf("    ");
                     else
                     {
@@ -966,7 +981,7 @@ void putmap(int sx, int sy, int id)
                         printf("[F] ");
                     else if (fog[i][j])
                         printf("████");
-                    else if (sight[id][i][j])
+                    else if (sight[id][i][j] || opt)
                         printf("    ");
                     else
                     {
@@ -981,7 +996,7 @@ void putmap(int sx, int sy, int id)
                         printf("{F} ");
                     else if (fog[i][j])
                         printf("████");
-                    else if (sight[id][i][j])
+                    else if (sight[id][i][j] || opt)
                         printf("    ");
                     else
                     {
@@ -1003,24 +1018,34 @@ void putmap(int sx, int sy, int id)
             }
             if (fog[i][j])
                 Setcolor();
-            printf("|");
-        }
-        printf("\n");
-        lft = false;
-        for (int j = (starting ? 1 : (Y > 15 ? sy - 7 : 1)); j <= (starting ? 15 : (Y > 15 ? sy + 7 : Y)); j++)
-            if (i >= 1 && i <= X && j >= 1 && j <= Y)
-            {
-                if (!lft)
-                    printf("-"), lft = true;
-                printf("-----");
-            }
+            if (!opt)
+                printf("|");
             else
             {
-                if (!lft)
-                    printf(" "), lft = true;
-                printf("     ");
+                printf(" ");
             }
+        }
         printf("\n");
+        if (!opt)
+        {
+            lft = false;
+            for (int j = (starting ? 1 : (Y > 15 ? sy - 7 : 1)); j <= (starting ? 15 : (Y > 15 ? sy + 7 : Y)); j++)
+                if (i >= 1 && i <= X && j >= 1 && j <= Y)
+                {
+                    if (!lft)
+                        printf("-"), lft = true;
+                    printf("-----");
+                }
+                else
+                {
+                    if (!lft)
+                        printf(" "), lft = true;
+                    printf("     ");
+                }
+            printf("\n");
+        }
+        else
+            printf("                                                                                                    \n");
     }
     if (starting)
         return;
@@ -2048,6 +2073,16 @@ int main()
             printf("保存配置文件成功！\n");
         }
     }
+    int mapopt;
+    while (1)
+    {
+        printf("选择地图输出模式：1 = 正常模式， 2 = 极速模式\n极速模式：不绘制地图边框和空白方块，可大幅减少刷新闪烁，但可能影响体验。\n");
+        scanf("%d", &mapopt);
+        if (mapopt == 1 || mapopt == 2)
+            break;
+    }
+    if (mapopt == 2)
+        opt = true;
     system("cls");
     convmap();
     if (mapmode == 1 || mapmode == 5 || mapmode == 6 || mapmode == 7)
